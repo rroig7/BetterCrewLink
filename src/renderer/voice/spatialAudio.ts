@@ -36,7 +36,7 @@ function distance(panPos: [number, number]): number {
 	return Math.sqrt(panPos[0] * panPos[0] + panPos[1] * panPos[1]);
 }
 
-const TOU_MIRA_LISTENER_MUFFLE: MuffleSetting = { type: 'lowpass', frequency: 900, q: 1 };
+const TOU_MIRA_LISTENER_MUFFLE: MuffleSetting = { type: 'lowpass', frequency: 200, q: 1 };
 
 function emptyResult(): VoiceAudioResult {
 	return { gain: 0, panPosition: null, panMaxDistance: null, muffle: null, reverb: null };
@@ -57,7 +57,9 @@ export function calculateVoiceAudio(input: VoiceAudioInput): VoiceAudioResult {
 		}
 	}
 	if (effects.muffled && result.gain > 0 && !result.muffle) {
-		result.muffle = TOU_MIRA_LISTENER_MUFFLE;
+    result.muffle = TOU_MIRA_LISTENER_MUFFLE;
+    result.gain *= 1.5;
+    result.reverb = true;
 	}
 	return result;
 }
