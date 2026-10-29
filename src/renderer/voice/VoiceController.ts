@@ -12,6 +12,7 @@ import { gameStore } from '../state/gameStore';
 import { AudioController } from './AudioController';
 import { ConnectionController } from './ConnectionController';
 import { clampGracePeriod, defaultLobbySettings, VoiceSnapshot } from './types';
+import { touMiraMuteReason } from './touMiraVoice';
 // @ts-ignore
 import radioOnSound from '../../../static/sounds/radio_on.wav';
 // @ts-ignore
@@ -65,6 +66,7 @@ const EMPTY_SNAPSHOT: VoiceSnapshot = {
 	impostorRadioClientId: -1,
 	activeLobbySettings: null,
 	hostId: 0,
+	touMiraMuteReason: null,
 };
 
 function emptyHost(): HostInfo {
@@ -471,6 +473,7 @@ export class VoiceController extends TypedEmitter<VoiceControllerEvents> {
 		this.handlePublicLobby(state, myPlayer);
 		this.cleanupImpostorRadio(state, myPlayer);
 		this.applyImpostorRadio();
+		this.applyTouMiraSelfMute(state, myPlayer);
 		this.updatePeerAudio(state, myPlayer);
 		this.publishMobileAndObs(state, myPlayer);
 	}
@@ -739,6 +742,15 @@ export class VoiceController extends TypedEmitter<VoiceControllerEvents> {
 
 		if (!stillActive) {
 			this.patch({ impostorRadioClientId: -1 });
+		}
+	}
+
+	/** Listeners already drop a muted speaker; also stop sending so peers without the bridge can't hear. */
+	private applyTouMiraSelfMute(state: AmongUsState, myPlayer: Player | undefined): void {
+		const reason = myPlayer ? touMiraMuteReason(state, this.activeLobbySettings, myPlayer) : null;
+		this.audio.setGameMuted(reason !== null);
+		if (reason !== this.snapshot.touMiraMuteReason) {
+			this.patch({ touMiraMuteReason: reason });
 		}
 	}
 

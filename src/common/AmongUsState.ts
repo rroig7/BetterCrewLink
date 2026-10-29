@@ -1,5 +1,6 @@
 import { CameraLocation, MapType } from './AmongusMap';
 import { ModsType } from './Mods';
+import { TouMiraSnapshot } from './TouMira';
 
 export interface AmongUsState {
 	gameState: GameState;
@@ -19,6 +20,8 @@ export interface AmongUsState {
 	maxPlayers: number;
 	mod: ModsType;
 	oldMeetingHud: boolean;
+	/** Latest snapshot from the TOU-Mira bridge plugin, or `null` when it isn't running. */
+	touMira: TouMiraSnapshot | null;
 }
 
 export interface Player {

@@ -194,6 +194,13 @@ const VoiceView: React.FC<VoiceProps> = function ({ t, error: initialError }: Vo
 							<small style={{ padding: 0 }}>{t('settings.lobbysettings.meetings_only_warning2')}</small>
 						</Box>
 					)}
+					{voice.touMiraMuteReason && (
+						<Box sx={classes.top}>
+							<small style={{ padding: 0, color: '#ff7070' }}>
+								{t(`settings.toumira.muted.${voice.touMiraMuteReason}`)}
+							</small>
+						</Box>
+					)}
 					{gameState.lobbyCode && <Divider />}
 					{displayedLobbyCode === 'MENU' && (
 						<Box sx={classes.top}>

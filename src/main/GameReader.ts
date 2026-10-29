@@ -27,6 +27,7 @@ import path from 'path';
 import { AmongusMod, modList } from '../common/Mods';
 import { GameInfo } from '../common/GameInfo';
 import { appVersion } from './appVersion';
+import { touMiraBridge } from './touMiraBridge';
 
 interface ValueType<T> {
 	read(buffer: BufferSource, offset: number): T;
@@ -85,6 +86,7 @@ export default class GameReader {
 	constructor(sendIPC: Electron.WebContents['send']) {
 		this.is_linux = platform() === 'linux';
 		this.sendIPC = sendIPC;
+		touMiraBridge.start();
 	}
 
 	async checkProcessOpen(): Promise<void> {
@@ -412,6 +414,7 @@ export default class GameReader {
 				closedDoors,
 				maxPlayers,
 				oldMeetingHud: this.oldMeetingHud,
+				touMira: touMiraBridge.snapshot(),
 			};
 			//	const stateHasChanged = !equal(this.lastState, newState);
 			if (state !== GameState.MENU || this.oldGameState !== GameState.MENU) {

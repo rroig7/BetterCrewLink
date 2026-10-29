@@ -61,6 +61,21 @@ export interface ILobbySettings {
 	publicLobby_on: boolean;
 	publicLobby_title: string;
 	publicLobby_language: string;
+
+	// Town of Us: Mira rules, applied only while the TOU-Mira bridge plugin is reporting.
+	touMira_enabled: boolean;
+	touMira_muteBlackmailedInMeetings: boolean;
+	touMira_muteBlackmailedNextRound: boolean;
+	touMira_muteJailedInMeetings: boolean;
+	touMira_jailPersistsAfterJailorDeath: boolean;
+	touMira_mutePuppeteerControlled: boolean;
+	touMira_puppeteerHearFromVictim: boolean;
+	touMira_muteParasiteControlled: boolean;
+	touMira_parasiteHearFromVictim: boolean;
+	touMira_muteSwooped: boolean;
+	touMira_muteGlitchHacked: boolean;
+	touMira_muffleBlinded: boolean;
+	touMira_muffleHysteria: boolean;
 }
 
 export interface SocketConfig {

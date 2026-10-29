@@ -1,5 +1,7 @@
 import { AudioConnected, ClientBoolMap, SocketClientMap, numberStringMap } from '../../common/AmongUsState';
 import { ILobbySettings } from '../../common/ISettings';
+import { touMiraLobbyDefaults } from '../../common/TouMira';
+import type { TouMiraMuteReason } from './touMiraVoice';
 import { VADOptions } from '../lib/vad';
 
 export interface ExtendedAudioElement extends HTMLAudioElement {
@@ -61,6 +63,7 @@ export const defaultLobbySettings: ILobbySettings = {
 	publicLobby_on: false,
 	publicLobby_title: '',
 	publicLobby_language: 'en',
+	...touMiraLobbyDefaults,
 };
 
 export const GRACE_PERIOD_MIN = 0;
@@ -87,6 +90,8 @@ export interface VoiceSnapshot {
 	impostorRadioClientId: number;
 	activeLobbySettings: ILobbySettings | null;
 	hostId: number;
+	/** Set while a Town of Us: Mira effect keeps the local player from being heard. */
+	touMiraMuteReason: TouMiraMuteReason | null;
 }
 
 export interface VadNode {

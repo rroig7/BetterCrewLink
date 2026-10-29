@@ -55,6 +55,8 @@ export class AudioController extends TypedEmitter<AudioControllerEvents> {
 	private radioTransmitting = false;
 	private mutedState = false;
 	private deafenedState = false;
+	/** Silenced by a game rule (e.g. jailed); wins over push-to-talk and radio. */
+	private gameMuted = false;
 	private maxDistance = 2;
 
 	get outboundStream(): MediaStream | undefined {
@@ -344,7 +346,7 @@ export class AudioController extends TypedEmitter<AudioControllerEvents> {
 	private applyTrackEnabled(): void {
 		const track = this.inputStream?.getAudioTracks()[0];
 		if (!track) return;
-		if (this.deafenedState || this.mutedState) {
+		if (this.deafenedState || this.mutedState || this.gameMuted) {
 			track.enabled = false;
 			return;
 		}
@@ -361,6 +363,12 @@ export class AudioController extends TypedEmitter<AudioControllerEvents> {
 
 	setPushToTalkMode(mode: number): void {
 		this.pushToTalkMode = mode;
+		this.applyTrackEnabled();
+	}
+
+	setGameMuted(muted: boolean): void {
+		if (this.gameMuted === muted) return;
+		this.gameMuted = muted;
 		this.applyTrackEnabled();
 	}
 

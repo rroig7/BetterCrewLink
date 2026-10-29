@@ -3,6 +3,7 @@ import { ipcMain, BrowserWindow } from 'electron';
 import { GamePlatform } from '../common/GamePlatform';
 import { ILobbySettings, ISettings } from '../common/ISettings';
 import { pushToTalkOptions } from '../common/pushToTalkOptions';
+import { touMiraLobbyDefaults } from '../common/TouMira';
 
 export { pushToTalkOptions };
 
@@ -320,6 +321,9 @@ export const settingsStore = new Store<ISettings>({
 					type: 'string',
 					default: 'NONE',
 				},
+				...Object.fromEntries(
+					Object.entries(touMiraLobbyDefaults).map(([key, value]) => [key, { type: 'boolean', default: value }])
+				),
 			},
 			default: {
 				maxDistance: 5.32,
@@ -337,6 +341,7 @@ export const settingsStore = new Store<ISettings>({
 				publicLobby_title: '',
 				publicLobby_language: 'en',
 				publicLobby_mods: 'NONE',
+				...touMiraLobbyDefaults,
 			},
 		},
 		launchPlatform: {

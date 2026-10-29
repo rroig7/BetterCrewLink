@@ -13,6 +13,7 @@ import KeyboardIcon from '@mui/icons-material/Keyboard';
 import LayersIcon from '@mui/icons-material/Layers';
 import ScienceIcon from '@mui/icons-material/Science';
 import VideocamIcon from '@mui/icons-material/Videocam';
+import GavelIcon from '@mui/icons-material/Gavel';
 import { ILobbySettings } from '../../common/ISettings';
 import { GameState } from '../../common/AmongUsState';
 import { IpcHandlerMessages } from '../../common/ipc-messages';
@@ -28,8 +29,10 @@ import KeybindsSection, { ShortcutSetting } from './sections/KeybindsSection';
 import OverlaySection from './sections/OverlaySection';
 import AdvancedSection from './sections/AdvancedSection';
 import StreamingSection from './sections/StreamingSection';
+import TouMiraSection from './sections/TouMiraSection';
 
-type CategoryId = 'general' | 'lobby' | 'players' | 'audio' | 'keybinds' | 'overlay' | 'advanced' | 'streaming';
+type CategoryId =
+	'general' | 'lobby' | 'toumira' | 'players' | 'audio' | 'keybinds' | 'overlay' | 'advanced' | 'streaming';
 
 const MY_LOBBY_COMMIT_DELAY = 750;
 
@@ -91,7 +94,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = function ({ t, activeLobbySe
 	}, [flushMyLobbyDraft]);
 
 	useEffect(() => {
-		if (category !== 'lobby') flushMyLobbyDraft();
+		if (category !== 'lobby' && category !== 'toumira') flushMyLobbyDraft();
 	}, [category, flushMyLobbyDraft]);
 
 	useEffect(() => {
@@ -132,6 +135,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = function ({ t, activeLobbySe
 			[
 				{ id: 'general', label: t('settings.general'), icon: <TuneIcon fontSize="small" /> },
 				{ id: 'lobby', label: t('settings.lobbysettings.title'), icon: <GroupsIcon fontSize="small" /> },
+				{ id: 'toumira', label: t('settings.toumira.title'), icon: <GavelIcon fontSize="small" /> },
 				{ id: 'players', label: t('settings.players.title'), icon: <PersonIcon fontSize="small" /> },
 				{ id: 'audio', label: t('settings.audio.title'), icon: <VolumeUpIcon fontSize="small" /> },
 				{ id: 'keybinds', label: t('settings.keyboard.title'), icon: <KeyboardIcon fontSize="small" /> },
@@ -204,6 +208,17 @@ const SettingsPanel: React.FC<SettingsPanelProps> = function ({ t, activeLobbySe
 							editDisabledReason={t('settings.lobbysettings.inlobbyonly')}
 							update={updateMyLobbySettings}
 							confirm={confirm}
+						/>
+					)}
+					{category === 'toumira' && (
+						<TouMiraSection
+							t={t}
+							gameState={gameState}
+							activeLobbySettings={activeLobbySettings}
+							myLobbySettings={myLobbyDraft}
+							canEditMine={canEditMyLobbySettings}
+							editDisabledReason={t('settings.lobbysettings.inlobbyonly')}
+							update={updateMyLobbySettings}
 						/>
 					)}
 					{category === 'players' && (
