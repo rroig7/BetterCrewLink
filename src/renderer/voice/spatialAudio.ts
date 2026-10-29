@@ -2,7 +2,7 @@ import { AmongUsState, GameState, Player } from '../../common/AmongUsState';
 import { ISettings, ILobbySettings } from '../../common/ISettings';
 import { AmongUsMaps, CameraLocation } from '../../common/AmongusMap';
 import { poseCollide } from '../../common/ColliderMap';
-import { touMiraListenerEffects, touMiraMuteReason } from './touMiraVoice';
+import { touMiraListenerEffects, touMiraMuteReason, touMiraPairRoute } from './touMiraVoice';
 
 export interface MuffleSetting {
 	type: BiquadFilterType;
@@ -47,9 +47,19 @@ export function calculateVoiceAudio(input: VoiceAudioInput): VoiceAudioResult {
 	if (touMiraMuteReason(state, activeLobbySettings, other)) {
 		return emptyResult();
 	}
+	const effects = touMiraListenerEffects(state, activeLobbySettings, me);
+	if (effects.deafened) {
+		return emptyResult();
+	}
+	const route = touMiraPairRoute(state, activeLobbySettings, me, other);
+	if (route === 'mute') {
+		return emptyResult();
+	}
+	if (route) {
+		return calculateBaseVoiceAudio({ ...input, me: route.me, other: route.other });
+	}
 
 	let result = calculateBaseVoiceAudio(input);
-	const effects = touMiraListenerEffects(state, activeLobbySettings, me);
 	for (const origin of effects.origins) {
 		const relocated = calculateBaseVoiceAudio({ ...input, me: { ...me, ...origin } });
 		if (effects.replace || relocated.gain > result.gain) {
@@ -57,9 +67,9 @@ export function calculateVoiceAudio(input: VoiceAudioInput): VoiceAudioResult {
 		}
 	}
 	if (effects.muffled && result.gain > 0 && !result.muffle) {
-    result.muffle = TOU_MIRA_LISTENER_MUFFLE;
-    result.gain *= 1.5;
-    result.reverb = true;
+		result.muffle = TOU_MIRA_LISTENER_MUFFLE;
+		result.gain *= 1.5;
+		result.reverb = true;
 	}
 	return result;
 }

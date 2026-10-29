@@ -1,6 +1,6 @@
 {
 	"name": "bettercrewlink-tou",
-	"version": "3.2.3-alpha.1",
+	"version": "3.2.3-alpha.2",
 	"license": "GPL-3.0-or-later",
 	"description": "Free, open, Among Us Proximity Voice Chat",
 	"main": "out/main/index.js",

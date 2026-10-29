@@ -3,9 +3,9 @@ import { TFunction } from 'i18next';
 import Alert from '@mui/material/Alert';
 import { AmongUsState } from '../../../common/AmongUsState';
 import { ILobbySettings } from '../../../common/ISettings';
-import { TouMiraLobbySettingKey } from '../../../common/TouMira';
+import { TouMiraLobbySettingKey, TouMiraMediumVoice } from '../../../common/TouMira';
 import { defaultLobbySettings } from '../../voice/types';
-import { SettingsSection, SwitchRow } from '../SettingsControls';
+import { SelectRow, SettingsSection, SwitchRow } from '../SettingsControls';
 
 export interface TouMiraSectionProps {
 	t: TFunction;
@@ -17,11 +17,22 @@ export interface TouMiraSectionProps {
 	update: (partial: Partial<ILobbySettings>) => void;
 }
 
+type ToggleKey = {
+	[K in TouMiraLobbySettingKey]: ILobbySettings[K] extends boolean ? K : never;
+}[TouMiraLobbySettingKey];
+
 interface RuleRow {
-	key: TouMiraLobbySettingKey;
+	key: ToggleKey;
 	/** Only editable while this other rule is on. */
-	requires?: TouMiraLobbySettingKey;
+	requires?: ToggleKey;
 }
+
+const mediumVoiceOptions = [
+	{ value: TouMiraMediumVoice.None, key: 'none' },
+	{ value: TouMiraMediumVoice.MediumToGhost, key: 'medium_to_ghost' },
+	{ value: TouMiraMediumVoice.GhostToMedium, key: 'ghost_to_medium' },
+	{ value: TouMiraMediumVoice.Both, key: 'both' },
+];
 
 const groups: { title: string; rows: RuleRow[] }[] = [
 	{
@@ -36,6 +47,7 @@ const groups: { title: string; rows: RuleRow[] }[] = [
 		rows: [
 			{ key: 'touMira_muteJailedInMeetings' },
 			{ key: 'touMira_jailPersistsAfterJailorDeath', requires: 'touMira_muteJailedInMeetings' },
+			{ key: 'touMira_deafenJailedInMeetings' },
 		],
 	},
 	{
@@ -122,6 +134,21 @@ const TouMiraSection: React.FC<TouMiraSectionProps> = function ({
 					})}
 				</SettingsSection>
 			))}
+
+			<SettingsSection title={t('settings.toumira.group_medium')}>
+				<SelectRow
+					label={t('settings.toumira.touMira_mediumGhostVoice')}
+					description={t('settings.toumira.touMira_mediumGhostVoice_description')}
+					disabled={disabled || !values.touMira_enabled}
+					disabledReason={disabled ? disabledReason : t('settings.toumira.requires_parent')}
+					value={String(values.touMira_mediumGhostVoice)}
+					options={mediumVoiceOptions.map(({ value, key }) => ({
+						value: String(value),
+						label: t(`settings.toumira.medium_voice.${key}`),
+					}))}
+					onChange={(value) => onUpdate({ touMira_mediumGhostVoice: Number(value) })}
+				/>
+			</SettingsSection>
 		</>
 	);
 };

@@ -92,6 +92,8 @@ export interface VoiceSnapshot {
 	hostId: number;
 	/** Set while a Town of Us: Mira effect keeps the local player from being heard. */
 	touMiraMuteReason: TouMiraMuteReason | null;
+	/** Set while the local player is jailed with the deafen rule on: they hear nobody. */
+	touMiraDeafened: boolean;
 }
 
 export interface VadNode {

@@ -194,10 +194,14 @@ const VoiceView: React.FC<VoiceProps> = function ({ t, error: initialError }: Vo
 							<small style={{ padding: 0 }}>{t('settings.lobbysettings.meetings_only_warning2')}</small>
 						</Box>
 					)}
-					{voice.touMiraMuteReason && (
+					{(voice.touMiraMuteReason || voice.touMiraDeafened) && (
 						<Box sx={classes.top}>
 							<small style={{ padding: 0, color: '#ff7070' }}>
-								{t(`settings.toumira.muted.${voice.touMiraMuteReason}`)}
+								{t(
+									voice.touMiraDeafened
+										? 'settings.toumira.muted.jailed_deafened'
+										: `settings.toumira.muted.${voice.touMiraMuteReason}`
+								)}
 							</small>
 						</Box>
 					)}

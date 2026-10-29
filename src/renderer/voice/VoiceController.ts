@@ -12,7 +12,7 @@ import { gameStore } from '../state/gameStore';
 import { AudioController } from './AudioController';
 import { ConnectionController } from './ConnectionController';
 import { clampGracePeriod, defaultLobbySettings, VoiceSnapshot } from './types';
-import { touMiraMuteReason } from './touMiraVoice';
+import { touMiraListenerEffects, touMiraMuteReason } from './touMiraVoice';
 // @ts-ignore
 import radioOnSound from '../../../static/sounds/radio_on.wav';
 // @ts-ignore
@@ -67,6 +67,7 @@ const EMPTY_SNAPSHOT: VoiceSnapshot = {
 	activeLobbySettings: null,
 	hostId: 0,
 	touMiraMuteReason: null,
+	touMiraDeafened: false,
 };
 
 function emptyHost(): HostInfo {
@@ -749,8 +750,9 @@ export class VoiceController extends TypedEmitter<VoiceControllerEvents> {
 	private applyTouMiraSelfMute(state: AmongUsState, myPlayer: Player | undefined): void {
 		const reason = myPlayer ? touMiraMuteReason(state, this.activeLobbySettings, myPlayer) : null;
 		this.audio.setGameMuted(reason !== null);
-		if (reason !== this.snapshot.touMiraMuteReason) {
-			this.patch({ touMiraMuteReason: reason });
+		const deafened = !!myPlayer && touMiraListenerEffects(state, this.activeLobbySettings, myPlayer).deafened;
+		if (reason !== this.snapshot.touMiraMuteReason || deafened !== this.snapshot.touMiraDeafened) {
+			this.patch({ touMiraMuteReason: reason, touMiraDeafened: deafened });
 		}
 	}
 

@@ -68,6 +68,7 @@ export interface ILobbySettings {
 	touMira_muteBlackmailedNextRound: boolean;
 	touMira_muteJailedInMeetings: boolean;
 	touMira_jailPersistsAfterJailorDeath: boolean;
+	touMira_deafenJailedInMeetings: boolean;
 	touMira_mutePuppeteerControlled: boolean;
 	touMira_puppeteerHearFromVictim: boolean;
 	touMira_muteParasiteControlled: boolean;
@@ -76,6 +77,8 @@ export interface ILobbySettings {
 	touMira_muteGlitchHacked: boolean;
 	touMira_muffleBlinded: boolean;
 	touMira_muffleHysteria: boolean;
+	/** One of `TouMiraMediumVoice`. */
+	touMira_mediumGhostVoice: number;
 }
 
 export interface SocketConfig {

@@ -167,6 +167,15 @@
 				"group_jailor": "Jailor",
 				"group_control": "Puppeteer / Parasite",
 				"group_other": "Other roles",
+				"group_medium": "Medium",
+				"touMira_mediumGhostVoice": "Ghost voice",
+				"touMira_mediumGhostVoice_description": "While the Medium is in spirit form, living players can't hear them. Choose who can talk between the Medium and the ghosts they mediated.",
+				"medium_voice": {
+					"none": "None",
+					"medium_to_ghost": "Medium -> Ghost",
+					"ghost_to_medium": "Ghost -> Medium",
+					"both": "Both"
+				},
 				"touMira_muteBlackmailedInMeetings": "Mute blackmailed player in meetings",
 				"touMira_muteBlackmailedInMeetings_description": "The blackmailed player cannot be heard during the meeting.",
 				"touMira_muteBlackmailedNextRound": "Keep blackmailed player muted next round",
@@ -175,6 +184,8 @@
 				"touMira_muteJailedInMeetings_description": "The jailed player cannot be heard during the meeting.",
 				"touMira_jailPersistsAfterJailorDeath": "Jail mute persists if Jailor dies",
 				"touMira_jailPersistsAfterJailorDeath_description": "Keep the jailed player muted even when the Jailor is dead.",
+				"touMira_deafenJailedInMeetings": "Deafen jailed player in meetings",
+				"touMira_deafenJailedInMeetings_description": "The jailed player can't hear anyone during the meeting either.",
 				"touMira_mutePuppeteerControlled": "Mute Puppeteer-controlled player",
 				"touMira_mutePuppeteerControlled_description": "A player being controlled by the Puppeteer cannot be heard.",
 				"touMira_puppeteerHearFromVictim": "Puppeteer hears from victim",
@@ -194,6 +205,7 @@
 				"muted": {
 					"blackmailed": "You are blackmailed. Nobody can hear you.",
 					"jailed": "You are jailed. Nobody can hear you.",
+					"jailed_deafened": "You are jailed. You can't hear anyone and nobody can hear you.",
 					"puppeteer": "You are being controlled by the Puppeteer. Nobody can hear you.",
 					"parasite": "You are being controlled by the Parasite. Nobody can hear you.",
 					"swooped": "You are swooped. Nobody can hear you until you reappear.",

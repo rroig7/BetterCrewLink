@@ -322,7 +322,7 @@ export const settingsStore = new Store<ISettings>({
 					default: 'NONE',
 				},
 				...Object.fromEntries(
-					Object.entries(touMiraLobbyDefaults).map(([key, value]) => [key, { type: 'boolean', default: value }])
+					Object.entries(touMiraLobbyDefaults).map(([key, value]) => [key, { type: typeof value, default: value }])
 				),
 			},
 			default: {
