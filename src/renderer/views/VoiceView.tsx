@@ -218,6 +218,15 @@ const VoiceView: React.FC<VoiceProps> = function ({ t, error: initialError }: Vo
 							</Button>
 						</Box>
 					)}
+					{displayedLobbyCode === 'MENU' && (
+						<Box sx={classes.top}>
+							<small style={{ padding: 0, color: gameState.touMira ? '#2ecc71' : 'gray' }}>
+								{t(
+									gameState.touMira ? 'settings.toumira.menu_bridge_connected' : 'settings.toumira.menu_bridge_missing'
+								)}
+							</small>
+						</Box>
+					)}
 					{myPlayer && gameState.lobbyCode !== 'MENU' && (
 						<OtherPlayersGrid sx={{ gridTemplateColumns: `repeat(${otherPlayersPerRow}, ${otherPlayerAvatarSize}px)` }}>
 							{otherPlayers.map((player) => {

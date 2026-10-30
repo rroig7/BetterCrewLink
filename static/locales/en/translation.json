@@ -159,6 +159,8 @@
 				"title": "Town of Us: Mira",
 				"bridge_connected": "TOU-Mira bridge connected. Role effects below are applied to voice chat.",
 				"bridge_missing": "TOU-Mira bridge not detected. Install TouMiraBclBridge.dll in your Among Us BepInEx/plugins folder next to Town of Us Mira, then start the game. Until then these rules have no effect.",
+				"menu_bridge_connected": "TOU-Mira bridge connected",
+				"menu_bridge_missing": "TOU-Mira bridge not detected",
 				"host_controls": "These rules are set by the lobby host.",
 				"requires_parent": "Turn on the rule above first.",
 				"touMira_enabled": "Apply Town of Us: Mira voice rules",
